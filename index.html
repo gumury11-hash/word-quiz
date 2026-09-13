@@ -528,30 +528,6 @@
         return `${y}.${m}.${d} ${h}:${min}:${s}`;
     }
 
-    // 언어, 난이도, 유형별로 기존 히스토리에 출제된 단어를 필터링하여 중복 제외
-    function getExcludedWordsFromHistory(lang, difficulty, type) {
-        const histories = JSON.parse(localStorage.getItem('quiz_histories') || '[]');
-        const excluded = new Set();
-
-        histories.forEach(h => {
-            // 언어와 난이도가 일치하는 기록 검사
-            const recordLang = h.lang || '영어'; // 구버전 호환용 기본값
-            if (recordLang === lang && h.difficulty === difficulty) {
-                if (type === '🎲 무작위 주제 (랜덤)') {
-                    if (h.type === '🎲 무작위 주제 (랜덤)' && h.results) {
-                        h.results.forEach(item => { if (item.word) excluded.add(item.word.toLowerCase()); });
-                    }
-                } else {
-                    if (h.type === type && h.results) {
-                        h.results.forEach(item => { if (item.word) excluded.add(item.word.toLowerCase()); });
-                    }
-                }
-            }
-        });
-
-        return excluded;
-    }
-
     async function generateQuizQuestions() {
         selectedLang = document.getElementById('target-lang').value;
         selectedDifficulty = document.getElementById('difficulty').value;
@@ -563,17 +539,7 @@
 
         document.getElementById('loader').style.display = 'block';
 
-        let allQuestions = [];
-        let existingWords = getExcludedWordsFromHistory(selectedLang, selectedDifficulty, selectedType);
-        let attempts = 0;
-
-        while (allQuestions.length < 10 && attempts < 5) {
-            attempts++;
-            let neededCount = 10 - allQuestions.length;
-            let excludeArray = Array.from(existingWords);
-            let excludeNote = excludeArray.length > 0 ? ` 단, 다음 단어들은 이미 출제되었으므로 제외해줘: ${excludeArray.join(', ')}` : '';
-
-            const prompt = `학습 언어: ${selectedLang}, 난이도: ${selectedDifficulty}, 단어 주제/유형: ${selectedType}에 맞는 서로 다른 ${selectedLang} 단어 퀴즈 ${neededCount}문제를 생성해줘.${excludeNote}
+        const prompt = `학습 언어: ${selectedLang}, 난이도: ${selectedDifficulty}, 단어 주제/유형: ${selectedType}에 맞는 서로 다른 ${selectedLang} 단어 퀴즈 10문제를 생성해줘.
 반드시 다른 설명 없이 오직 순수 JSON 배열 형식만 출력해줘. (마크다운 백틱 \`\`\`json 등도 절대 포함하지 말고 배열 기호 [ 와 ] 로 시작하고 끝나게 할 것)
 [
   {
@@ -585,36 +551,28 @@
   }
 ]`;
 
-            try {
-                const responseText = await callGeminiAPI(prompt);
-                let cleanText = responseText.trim();
-                if (cleanText.startsWith('```json')) {
-                    cleanText = cleanText.replace(/^```json/, '').replace(/```$/, '').trim();
-                } else if (cleanText.startsWith('```')) {
-                    cleanText = cleanText.replace(/^```/, '').replace(/```$/, '').trim();
-                }
-                
-                const parsed = JSON.parse(cleanText);
-
-                for (let q of parsed) {
-                    if (q.word && !existingWords.has(q.word.toLowerCase()) && allQuestions.length < 10) {
-                        existingWords.add(q.word.toLowerCase());
-                        allQuestions.push(q);
-                    }
-                }
-            } catch (e) {
-                console.error('생성 시도 중 오류 발생:', e);
+        try {
+            const responseText = await callGeminiAPI(prompt);
+            let cleanText = responseText.trim();
+            if (cleanText.startsWith('```json')) {
+                cleanText = cleanText.replace(/^```json/, '').replace(/```$/, '').trim();
+            } else if (cleanText.startsWith('```')) {
+                cleanText = cleanText.replace(/^```/, '').replace(/```$/, '').trim();
             }
+            
+            quizData = JSON.parse(cleanText);
+        } catch (e) {
+            console.error('생성 시도 중 오류 발생:', e);
+            quizData = [];
         }
 
         document.getElementById('loader').style.display = 'none';
 
-        if (allQuestions.length === 0) {
+        if (!quizData || quizData.length === 0) {
             alert('문제 생성 중 오류가 발생했습니다. API 키를 확인하거나 다시 시도해주세요.');
             return;
         }
 
-        quizData = allQuestions;
         currentIdx = 0;
         score = 0;
         sessionResults = [];
