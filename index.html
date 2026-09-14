@@ -1,4 +1,4 @@
-I<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -77,7 +77,6 @@ I<!DOCTYPE html>
             display: block;
         }
 
-        /* API 키 발급 안내 가이드 박스 스타일 */
         .api-guide-box {
             background: var(--gold-light);
             border: 1px solid var(--gold-border);
@@ -138,10 +137,7 @@ I<!DOCTYPE html>
             -webkit-tap-highlight-color: transparent;
         }
 
-        button:active {
-            transform: scale(0.98);
-        }
-
+        button:active { transform: scale(0.98); }
         button:hover {
             background: linear-gradient(135deg, #d1ac63, #b48a40);
             box-shadow: 0 6px 15px rgba(197, 160, 89, 0.3);
@@ -174,21 +170,16 @@ I<!DOCTYPE html>
         }
         .btn-tts:hover { background: #bae6fd; transform: none; }
 
-        /* API 키 관리 영역 스타일 (설정 화면 하단) */
         .api-settings-box {
             margin-top: 24px;
             padding-top: 16px;
             border-top: 1px solid var(--border-color);
         }
 
-        /* 기록 상세 확인 모달 */
         .modal {
             display: none;
             position: fixed;
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
@@ -197,9 +188,7 @@ I<!DOCTYPE html>
             box-sizing: border-box;
             touch-action: auto;
         }
-        .modal.show {
-            display: flex !important;
-        }
+        .modal.show { display: flex !important; }
         .modal-content {
             background: var(--card-bg);
             border: 2px solid var(--gold-border);
@@ -219,7 +208,6 @@ I<!DOCTYPE html>
         .close-btn { background: #ef4444; margin-top: 16px; border: none; font-size: 17px; }
         .close-btn:hover { background: #dc2626; }
 
-        /* 기록 상세 내역 스타일 */
         .history-item-box {
             background: #faf9f6;
             border: 1px solid var(--border-color);
@@ -229,7 +217,6 @@ I<!DOCTYPE html>
             font-size: 16px;
         }
 
-        /* 퀴즈 스타일 */
         .quiz-header {
             display: flex;
             justify-content: space-between;
@@ -302,7 +289,6 @@ I<!DOCTYPE html>
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* 기록 보기 리스트 스타일 */
         .history-list-container {
             max-height: 220px;
             overflow-y: auto;
@@ -332,13 +318,13 @@ I<!DOCTYPE html>
 <div class="container">
     <h1 id="main-heading">외국어 단어 퀴즈</h1>
 
-    <!-- 1. API 키 설정 화면 (키가 없을 때만 진입) -->
+    <!-- 1. API 키 설정 화면 -->
     <div id="setup-section" class="section active">
         <div class="api-guide-box">
             <h4>💡 Gemini API 키 발급 방법</h4>
             <ul>
-                <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 및 구글 로그인 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 13px;">[바로가기]</a></li>
-                <li>좌측 메뉴 또는 화면의 <strong>Get API key</strong> 클릭</li>
+                <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 및 로그인 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 13px;">[바로가기]</a></li>
+                <li>좌측 메뉴의 <strong>Get API key</strong> 클릭</li>
                 <li><strong>Create API key</strong> 버튼을 눌러 키 생성 후 복사하기</li>
             </ul>
         </div>
@@ -347,7 +333,7 @@ I<!DOCTYPE html>
             <label for="api-key-input">Gemini API 키 입력</label>
             <input type="password" id="api-key-input" placeholder="API 키를 입력하세요 (AIza...)">
         </div>
-        <button onclick="saveApiKey()">키 저장 및 시작하기</button>
+        <button id="save-key-btn">키 저장 및 시작하기</button>
     </div>
 
     <!-- 2. 게임 설정 화면 -->
@@ -355,16 +341,16 @@ I<!DOCTYPE html>
         <div class="form-group">
             <label for="target-lang">학습 언어 선택</label>
             <select id="target-lang">
-            <option value="영어" selected>영어</option>
-            <option value="일본어">일본어</option>
-            <option value="중국어">중국어</option>
-            <option value="스페인어">스페인어</option>
-            <option value="프랑스어">프랑스어</option>
-            <option value="독일어">독일어</option>
-            <option value="베트남어">베트남어</option>
-            <option value="태국어">태국어</option>
-            <option value="러시아어">러시아어</option>
-            <option value="이탈리아어">이탈리아어</option>
+                <option value="영어" selected>영어</option>
+                <option value="일본어">일본어</option>
+                <option value="중국어">중국어</option>
+                <option value="스페인어">스페인어</option>
+                <option value="프랑스어">프랑스어</option>
+                <option value="독일어">독일어</option>
+                <option value="베트남어">베트남어</option>
+                <option value="태국어">태국어</option>
+                <option value="러시아어">러시아어</option>
+                <option value="이탈리아어">이탈리아어</option>
             </select>
         </div>
         <div class="form-group">
@@ -378,29 +364,28 @@ I<!DOCTYPE html>
         <div class="form-group">
             <label for="word-type">단어 유형 선택</label>
             <select id="word-type">
-             <option value="random">🎲 무작위 주제 (랜덤)</option>
-            <option value="공항 및 해외 여행 상황">✈️ 공항 및 해외 여행</option>
-            <option value="식당 주문 및 카페 이용">☕ 식당 주문 및 카페 이용</option>
-            <option value="비즈니스 미팅 및 이메일 표현">💼 비즈니스 및 업무 회화</option>
-            <option value="친구와의 일상 수다 및 감정 표현">🗣️ 일상 대화 및 감정 표현</option>
-            <option value="쇼핑 및 환불/교환 상황">🛍️ 쇼핑 및 환불/교환</option>
-            <option value="호텔 예약 및 체크인/체크아웃">🏨 호텔 및 숙소 이용</option>
-            <option value="길 찾기 및 교통수단 이용">🗺️ 길 찾기 및 교통수단</option>
-            <option value="학교 수업 및 발표 상황">🎓 학교 수업 및 발표</option>
-            <option value="취업 준비 및 면접 질문">💼 취업 준비 및 면접</option>
-            <option value="가족 행사 및 명절 대화">🏡 가족 행사 및 명절</option>
-            <option value="건강, 운동, 병원 방문">🏥 건강 및 병원</option>
-            <option value="취미 생활 및 여가 활동">🎨 취미와 여가</option>
-            <option value="스마트폰, 앱, 디지털 기기">📱 스마트폰 및 디지털</option>
-            <option value="날씨, 계절, 자연환경">🌤️ 날씨와 자연</option>
-            <option value="뉴스, 사회 이슈, 의견 표현">📰 뉴스 및 사회 이슈</option>
-            <option value="영화, 음악, 예술 감상">🎬 영화와 예술</option>
+                <option value="random">🎲 무작위 주제 (랜덤)</option>
+                <option value="공항 및 해외 여행 상황">✈️ 공항 및 해외 여행</option>
+                <option value="식당 주문 및 카페 이용">☕ 식당 주문 및 카페 이용</option>
+                <option value="비즈니스 미팅 및 이메일 표현">💼 비즈니스 및 업무 회화</option>
+                <option value="친구와의 일상 수다 및 감정 표현">🗣️ 일상 대화 및 감정 표현</option>
+                <option value="쇼핑 및 환불/교환 상황">🛍️ 쇼핑 및 환불/교환</option>
+                <option value="호텔 예약 및 체크인/체크아웃">🏨 호텔 및 숙소 이용</option>
+                <option value="길 찾기 및 교통수단 이용">🗺️ 길 찾기 및 교통수단</option>
+                <option value="학교 수업 및 발표 상황">🎓 학교 수업 및 발표</option>
+                <option value="취업 준비 및 면접 질문">💼 취업 준비 및 면접</option>
+                <option value="가족 행사 및 명절 대화">🏡 가족 행사 및 명절</option>
+                <option value="건강, 운동, 병원 방문">🏥 건강 및 병원</option>
+                <option value="취미 생활 및 여가 활동">🎨 취미와 여가</option>
+                <option value="스마트폰, 앱, 디지털 기기">📱 스마트폰 및 디지털</option>
+                <option value="날씨, 계절, 자연환경">🌤️ 날씨와 자연</option>
+                <option value="뉴스, 사회 이슈, 의견 표현">📰 뉴스 및 사회 이슈</option>
+                <option value="영화, 음악, 예술 감상">🎬 영화와 예술</option>
             </select>
         </div>
-        <button onclick="generateQuizQuestions()">퀴즈 문제 생성하기</button>
-        <button class="btn-secondary" onclick="showHistorySection()">기록 보기</button>
+        <button id="generate-btn">퀴즈 문제 생성하기</button>
+        <button class="btn-secondary" id="show-history-btn">기록 보기</button>
 
-        <!-- API 키가 없을 때만 화면 하단에 표시되는 API 키 저장 영역 -->
         <div class="api-settings-box" id="api-settings-box" style="display: none;">
             <div class="api-guide-box" style="margin-bottom: 12px;">
                 <h4>💡 Gemini API 키 발급 방법</h4>
@@ -412,7 +397,7 @@ I<!DOCTYPE html>
                 <label for="config-api-key" style="font-size: 15px; color: var(--text-muted);">API 키 변경/등록</label>
                 <input type="password" id="config-api-key" placeholder="새로운 API 키를 입력하세요">
             </div>
-            <button class="btn-secondary" onclick="updateApiKeyFromConfig()">API 키 저장</button>
+            <button class="btn-secondary" id="update-key-btn">API 키 저장</button>
         </div>
 
         <div class="loader" id="loader"></div>
@@ -426,20 +411,19 @@ I<!DOCTYPE html>
         </div>
         
         <div class="situation-box" id="situation-text">뜻 설명 로딩 중...</div>
-        
         <div class="options-grid" id="options-container"></div>
 
         <div class="feedback-box" id="feedback-box">
             <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px; margin-bottom: 8px;">
                 <p id="feedback-result" style="font-weight: bold; margin: 0;"></p>
-                <button class="btn-tts" onclick="playWordPronunciation()">🔊 단어 듣기</button>
+                <button class="btn-tts" id="tts-word-btn">🔊 단어 듣기</button>
             </div>
             <div style="color: #0284c7; font-style: italic; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 4px;">
                 <span id="word-example" style="flex: 1; min-width: 150px;"></span>
-                <button class="btn-tts" onclick="playExamplePronunciation()">🔊 예문 듣기</button>
+                <button class="btn-tts" id="tts-example-btn">🔊 예문 듣기</button>
             </div>
         </div>
-        <button id="next-btn" style="display: none;" onclick="nextQuestion()">다음 문제</button>
+        <button id="next-btn" style="display: none;">다음 문제</button>
     </div>
 
     <!-- 4. 결과 및 기록 화면 -->
@@ -448,7 +432,7 @@ I<!DOCTYPE html>
         <p id="final-score-text" style="text-align: center; font-size: 20px; font-weight: bold; color: var(--text-color);"></p>
         
         <div class="history-list-container" id="history-list-box"></div>
-        <button onclick="resetToConfig()" style="margin-top: 16px;">다시 플레이하기</button>
+        <button id="reset-config-btn" style="margin-top: 16px;">다시 플레이하기</button>
     </div>
 </div>
 
@@ -457,311 +441,11 @@ I<!DOCTYPE html>
     <div class="modal-content">
         <h3>퀴즈 상세 학습 내역</h3>
         <div id="history-detail-body"></div>
-        <button class="close-btn" onclick="closeHistoryModal()">닫기</button>
+        <button class="close-btn" id="close-modal-btn">닫기</button>
     </div>
 </div>
 
 <script>
-    let apiKey = localStorage.getItem('gemini_api_key') || '';
-    let quizData = [];
-    let currentIdx = 0;
-    let score = 0;
-    let selectedLang = '영어';
-    let selectedDifficulty = '';
-    let selectedType = '';
-    let currentCorrectWord = '';
-    let currentExampleText = '';
-    let sessionResults = [];
-
-    window.onload = function() {
-        checkApiKeyStatus();
-    };
-
-    function checkApiKeyStatus() {
-        const apiSettingsBox = document.getElementById('api-settings-box');
-        if (apiKey) {
-            document.getElementById('config-api-key').value = apiKey;
-            apiSettingsBox.style.display = 'none'; // 키가 있으면 숨김
-            switchSection('config-section');
-        } else {
-            apiSettingsBox.style.display = 'block'; // 키가 없으면 하단에 표시
-            switchSection('setup-section');
-        }
-    }
-
-    function saveApiKey() {
-        const keyInput = document.getElementById('api-key-input').value.trim();
-        if (!keyInput) { alert('API 키를 입력해주세요.'); return; }
-        apiKey = keyInput;
-        localStorage.setItem('gemini_api_key', apiKey);
-        checkApiKeyStatus();
-    }
-
-    function updateApiKeyFromConfig() {
-        const keyInput = document.getElementById('config-api-key').value.trim();
-        if (!keyInput) { alert('API 키를 입력해주세요.'); return; }
-        apiKey = keyInput;
-        localStorage.setItem('gemini_api_key', apiKey);
-        alert('API 키가 저장되었습니다.');
-        checkApiKeyStatus();
-    }
-
-    function openHistoryModal() { 
-        const modal = document.getElementById('history-detail-modal');
-        modal.style.display = 'flex';
-        modal.classList.add('show');
-    }
-    function closeHistoryModal() { 
-        const modal = document.getElementById('history-detail-modal');
-        modal.style.display = 'none';
-        modal.classList.remove('show');
-    }
-
-    function switchSection(sectionId) {
-        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-        document.getElementById(sectionId).classList.add('active');
-    }
-
-    async function callGeminiAPI(prompt, retries = 5) {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-        
-        for (let attempt = 1; attempt <= retries; attempt++) {
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }]
-                    })
-                });
-
-                if (!response.ok) throw new Error('API 호출 실패');
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (err) {
-                if (attempt === retries) throw err;
-                await new Promise(res => setTimeout(res, 1000 * attempt));
-            }
-        }
-    }
-
-    function formatCustomDate(dateObj) {
-        const y = dateObj.getFullYear();
-        const m = String(dateObj.getMonth() + 1).padStart(2, '0');
-        const d = String(dateObj.getDate()).padStart(2, '0');
-        const h = String(dateObj.getHours()).padStart(2, '0');
-        const min = String(dateObj.getMinutes()).padStart(2, '0');
-        const s = String(dateObj.getSeconds()).padStart(2, '0');
-        return `${y}.${m}.${d} ${h}:${min}:${s}`;
-    }
-
-    function getExcludedWordsFromHistory(lang, difficulty, type) {
-        const histories = JSON.parse(localStorage.getItem('quiz_histories') || '[]');
-        const excluded = new Set();
-
-        histories.forEach(h => {
-            const recordLang = h.lang || '영어';
-            if (recordLang === lang && h.difficulty === difficulty) {
-                if (type === '🎲 무작위 주제 (랜덤)') {
-                    if (h.type === '🎲 무작위 주제 (랜덤)' && h.results) {
-                        h.results.forEach(item => { if (item.word) excluded.add(item.word.toLowerCase()); });
-                    }
-                } else {
-                    if (h.type === type && h.results) {
-                        h.results.forEach(item => { if (item.word) excluded.add(item.word.toLowerCase()); });
-                    }
-                }
-            }
-        });
-
-        return excluded;
-    }
-
-    async function generateQuizQuestions() {
-        if (!apiKey) {
-            alert('API 키가 등록되어 있지 않습니다. 화면 하단에서 API 키를 먼저 등록해주세요.');
-            checkApiKeyStatus();
-            return;
-        }
-
-        selectedLang = document.getElementById('target-lang').value;
-        selectedDifficulty = document.getElementById('difficulty').value;
-        selectedType = document.getElementById('word-type').value;
-        document.getElementById('main-heading').innerText = `${selectedLang} 단어 퀴즈`;
-        document.getElementById('page-title').innerText = `${selectedLang} 단어 퀴즈`;
-
-        document.getElementById('loader').style.display = 'block';
-
-        let allQuestions = [];
-        let existingWords = getExcludedWordsFromHistory(selectedLang, selectedDifficulty, selectedType);
-        let attempts = 0;
-
-        while (allQuestions.length < 10 && attempts < 5) {
-            attempts++;
-            let neededCount = 10 - allQuestions.length;
-            let excludeArray = Array.from(existingWords);
-            let excludeNote = excludeArray.length > 0 ? ` 단, 다음 단어들은 이미 출제되었으므로 제외해줘: ${excludeArray.join(', ')}` : '';
-
-            const prompt = `학습 언어: ${selectedLang}, 난이도: ${selectedDifficulty}, 단어 주제/유형: ${selectedType}에 맞는 서로 다른 ${selectedLang} 단어 퀴즈 ${neededCount}문제를 생성해줘.${excludeNote}
-반드시 다른 설명 없이 오직 순수 JSON 배열 형식만 출력해줘. (마크다운 백틱 \`\`\`json 등도 절대 포함하지 말고 배열 기호 [ 와 ] 로 시작하고 끝나게 할 것)
-[
-  {
-    "word": "정답 ${selectedLang} 단어",
-    "definition": "이 단어의 상세한 의미 및 여러 가지 뜻과 뉘앙스 설명 (한국어로 작성)",
-    "example_en": "해당 ${selectedLang} 단어가 포함된 예문",
-    "example_ko": "해당 예문의 한국어 번역",
-    "distractors": ["오답단어1", "오답단어2", "오답단어3"]
-  }
-]`;
-
-            try {
-                const responseText = await callGeminiAPI(prompt);
-                let cleanText = responseText.trim();
-                if (cleanText.startsWith('```json')) {
-                    cleanText = cleanText.replace(/^```json/, '').replace(/```$/, '').trim();
-                } else if (cleanText.startsWith('```')) {
-                    cleanText = cleanText.replace(/^```/, '').replace(/```$/, '').trim();
-                }
-                
-                const parsed = JSON.parse(cleanText);
-
-                for (let q of parsed) {
-                    if (q.word && !existingWords.has(q.word.toLowerCase()) && allQuestions.length < 10) {
-                        existingWords.add(q.word.toLowerCase());
-                        allQuestions.push(q);
-                    }
-                }
-            } catch (e) {
-                console.error('생성 시도 중 오류 발생:', e);
-            }
-        }
-
-        document.getElementById('loader').style.display = 'none';
-
-        if (allQuestions.length === 0) {
-            alert('문제 생성 중 오류가 발생했습니다. API 키를 확인하거나 다시 시도해주세요.');
-            return;
-        }
-
-        quizData = allQuestions;
-        currentIdx = 0;
-        score = 0;
-        sessionResults = [];
-        switchSection('quiz-section');
-        loadQuestion();
-    }
-
-    function loadQuestion() {
-        if (currentIdx >= quizData.length) {
-            finishQuiz();
-            return;
-        }
-
-        const q = quizData[currentIdx];
-        currentCorrectWord = q.word;
-        currentExampleText = q.example_en;
-
-        document.getElementById('quiz-progress').innerText = `문제 ${currentIdx + 1} / ${quizData.length}`;
-        document.getElementById('quiz-score').innerText = `점수: ${score}점`;
-        document.getElementById('situation-text').innerText = `${q.definition}`;
-        
-        let options = [...q.distractors, q.word];
-        options.sort(() => Math.random() - 0.5);
-
-        const container = document.getElementById('options-container');
-        container.innerHTML = '';
-        options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.innerText = opt;
-            btn.onclick = () => processAnswer(opt, q.word);
-            container.appendChild(btn);
-        });
-
-        container.style.display = 'flex';
-        document.getElementById('feedback-box').style.display = 'none';
-        document.getElementById('next-btn').style.display = 'none';
-    }
-
-    function processAnswer(selected, correct) {
-        const isCorrect = selected.toLowerCase() === correct.toLowerCase();
-        if (isCorrect) {
-            score += Math.round(100 / quizData.length);
-            document.getElementById('feedback-result').innerText = `정답입니다! 👏 ('${correct}')`;
-            document.getElementById('feedback-result').style.color = '#16a34a';
-        } else {
-            document.getElementById('feedback-result').innerText = `틀렸습니다! 정답은 '${correct}' 입니다.`;
-            document.getElementById('feedback-result').style.color = '#dc2626';
-        }
-
-        const q = quizData[currentIdx];
-        document.getElementById('word-example').innerText = `💬 예문: ${q.example_en} (${q.example_ko})`;
-
-        sessionResults.push({
-            word: correct,
-            definition: q.definition,
-            isCorrect: isCorrect,
-            selected: selected
-        });
-
-        document.getElementById('options-container').style.display = 'none';
-        document.getElementById('feedback-box').style.display = 'block';
-        document.getElementById('next-btn').style.display = 'block';
-        document.getElementById('quiz-score').innerText = `점수: ${score}점`;
-    }
-
-    function getLocaleCode(lang) {
-        switch(lang) {
-            case '일본어': return 'ja-JP';
-            case '중국어': return 'zh-CN';
-            case '스페인어': return 'es-ES';
-            case '프랑스어': return 'fr-FR';
-            case '독일어': return 'de-DE';
-            case '영어': default: return 'en-US';
-            case '베트남어': default: return 'vi-VN';
-            case '태국어': default: return 'th-TH';
-            case '러시아어': default: return 'ru-RU';
-            case '이탈리아어': default: return 'it-IT';
-        }
-    }
-
-    function playWordPronunciation() {
-        if (!currentCorrectWord) return;
-        const utterance = new SpeechSynthesisUtterance(currentCorrectWord);
-        utterance.lang = getLocaleCode(selectedLang);
-        window.speechSynthesis.speak(utterance);
-    }
-
-    function playExamplePronunciation() {
-        if (!currentExampleText) return;
-        const utterance = new SpeechSynthesisUtterance(currentExampleText);
-        utterance.lang = getLocaleCode(selectedLang);
-        window.speechSynthesis.speak(utterance);
-    }
-
-    function nextQuestion() {
-        currentIdx++;
-        loadQuestion();
-    }
-
-    function finishQuiz() {
-        switchSection('result-section');
-        document.getElementById('section-title').innerText = '퀴즈 완료';
-        document.getElementById('final-score-text').innerText = `총 점수: ${score}점`;
-
-        const historyRecord = {
-            date: formatCustomDate(new Date()),
-            lang: selectedLang,
-            difficulty: selectedDifficulty,
-            type: selectedType,
-            score: score,
-            results: sessionResults
-        };
-
-        let histories = JSON.parse(localStorage.getItem('quiz_histories') || '[]');
-        histories.unshift(historyRecord);
-<script>
-    // 브라우저 환경에 따라 localStorage가 차단된 경우를 대비한 안전 장치
     let apiKey = '';
     try {
         apiKey = localStorage.getItem('gemini_api_key') || '';
@@ -779,9 +463,21 @@ I<!DOCTYPE html>
     let currentExampleText = '';
     let sessionResults = [];
 
-    window.onload = function() {
+    // DOM이 완전히 로드된 후 이벤트 리스너를 안전하게 부착
+    document.addEventListener('DOMContentLoaded', function() {
         checkApiKeyStatus();
-    };
+
+        // 버튼 이벤트 바인딩
+        document.getElementById('save-key-btn').addEventListener('click', saveApiKey);
+        document.getElementById('update-key-btn').addEventListener('click', updateApiKeyFromConfig);
+        document.getElementById('generate-btn').addEventListener('click', generateQuizQuestions);
+        document.getElementById('show-history-btn').addEventListener('click', showHistorySection);
+        document.getElementById('next-btn').addEventListener('click', nextQuestion);
+        document.getElementById('reset-config-btn').addEventListener('click', resetToConfig);
+        document.getElementById('tts-word-btn').addEventListener('click', playWordPronunciation);
+        document.getElementById('tts-example-btn').addEventListener('click', playExamplePronunciation);
+        document.getElementById('close-modal-btn').addEventListener('click', closeHistoryModal);
+    });
 
     function checkApiKeyStatus() {
         const apiSettingsBox = document.getElementById('api-settings-box');
@@ -800,7 +496,7 @@ I<!DOCTYPE html>
     function saveApiKey() {
         const inputEl = document.getElementById('api-key-input');
         if (!inputEl) {
-            alert('요소를 찾을 수 없습니다.');
+            alert('입력 요소를 찾을 수 없습니다.');
             return;
         }
         const keyInput = inputEl.value.trim();
@@ -813,10 +509,9 @@ I<!DOCTYPE html>
         try {
             localStorage.setItem('gemini_api_key', apiKey);
         } catch (e) {
-            console.warn('localStorage 저장 실패 (메모리 모드로 동작합니다)');
+            console.warn('localStorage 저장 실패');
         }
         
-        alert('API 키가 성공적으로 저장되었습니다!');
         checkApiKeyStatus();
     }
 
@@ -832,9 +527,7 @@ I<!DOCTYPE html>
         apiKey = keyInput;
         try {
             localStorage.setItem('gemini_api_key', apiKey);
-        } catch (e) {
-            console.warn('localStorage 저장 실패');
-        }
+        } catch (e) {}
         
         alert('API 키가 저장되었습니다.');
         checkApiKeyStatus();
@@ -1011,7 +704,7 @@ I<!DOCTYPE html>
             const btn = document.createElement('button');
             btn.className = 'option-btn';
             btn.innerText = opt;
-            btn.onclick = () => processAnswer(opt, q.word);
+            btn.addEventListener('click', () => processAnswer(opt, q.word));
             container.appendChild(btn);
         });
 
@@ -1134,7 +827,7 @@ I<!DOCTYPE html>
                 <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${h.date} | [${recordLang}] ${h.difficulty} | ${h.type}</span>
                 <b style="color: var(--gold-primary); flex-shrink: 0;">${h.score}점</b>
             `;
-            row.onclick = () => showHistoryDetail(index);
+            row.addEventListener('click', () => showHistoryDetail(index));
             listBox.appendChild(row);
         });
     }
@@ -1176,7 +869,6 @@ I<!DOCTYPE html>
         checkApiKeyStatus();
     }
 </script>
-
 
 </body>
 </html>
