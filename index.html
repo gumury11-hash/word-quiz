@@ -338,12 +338,11 @@
         <div class="form-group">
             <div class="label-container">
                 <label for="api-key">Gemini API 키 입력</label>
-                <button class="help-icon-btn" onclick="openHelpModal()" title="API Key 발급 방법">
+		<button class="help-icon-btn" onclick="openHelpModal()" title="API Key 발급 방법">
                     ❔ 도움말
                 </button>
             </div>
             <input type="password" id="api-key" placeholder="API 키를 입력하세요">
-            <span class="help-link" onclick="openHelpModal()">API 키를 받는 방법이 궁금하신가요?</span>
         </div>
         <button onclick="saveApiKey()">키 저장 및 시작하기</button>
     </div>
@@ -353,7 +352,7 @@
         <div class="form-group">
             <label for="target-lang">학습 언어 선택</label>
             <select id="target-lang">
-            <option value="영어">영어</option>
+            <option value="영어" selected>영어</option>
             <option value="일본어">일본어</option>
             <option value="중국어">중국어</option>
             <option value="스페인어">스페인어</option>
