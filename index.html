@@ -177,37 +177,24 @@
         }
         .btn-tts:hover { background: #bae6fd; transform: none; }
 
-        .help-link {
-            font-size: 16px;
-            color: var(--gold-primary);
-            text-decoration: underline;
-            cursor: pointer;
-            display: inline-block;
-            margin-top: 8px;
-            opacity: 0.9;
-            transition: opacity 0.2s;
+        /* 팝업 모달 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; 
+            left: 0; 
+            width: 100vw; 
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+            padding: 16px;
+            box-sizing: border-box;
         }
-        .help-link:hover { opacity: 1; }
-/* 팝업 모달 */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 99999; /* z-index를 최상단으로 상향 */
-    padding: 16px;
-    box-sizing: border-box;
-}
-
-.modal.show {
-    display: flex !important;
-}
-
+        .modal.show {
+            display: flex !important;
+        }
         .modal-content {
             background: var(--card-bg);
             border: 2px solid var(--gold-border);
@@ -345,8 +332,8 @@
         <div class="form-group">
             <div class="label-container">
                 <label for="api-key">Gemini API 키 입력</label>
-		<button class="help-icon-btn" onclick="openHelpModal()" title="API Key 발급 방법">
-                    ❔도움말
+                <button class="help-icon-btn" onclick="openHelpModal()" title="API Key 발급 방법">
+                    ❔ 도움말
                 </button>
             </div>
             <input type="password" id="api-key" placeholder="API 키를 입력하세요">
@@ -503,29 +490,26 @@
         switchSection('config-section');
     }
 
-function openHelpModal() { 
-    const modal = document.getElementById('help-modal');
-    modal.style.display = 'flex';
-    modal.classList.add('show');
-}
-
-function closeHelpModal() { 
-    const modal = document.getElementById('help-modal');
-    modal.style.display = 'none';
-    modal.classList.remove('show');
-}
-
-function openHistoryModal() { 
-    const modal = document.getElementById('history-detail-modal');
-    modal.style.display = 'flex';
-    modal.classList.add('show');
-}
-
-function closeHistoryModal() { 
-    const modal = document.getElementById('history-detail-modal');
-    modal.style.display = 'none';
-    modal.classList.remove('show');
-}
+    function openHelpModal() { 
+        const modal = document.getElementById('help-modal');
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+    }
+    function closeHelpModal() { 
+        const modal = document.getElementById('help-modal');
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
+    function openHistoryModal() { 
+        const modal = document.getElementById('history-detail-modal');
+        modal.style.display = 'flex';
+        modal.classList.add('show');
+    }
+    function closeHistoryModal() { 
+        const modal = document.getElementById('history-detail-modal');
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+    }
 
     function switchSection(sectionId) {
         document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
@@ -533,7 +517,6 @@ function closeHistoryModal() {
     }
 
     async function callGeminiAPI(prompt, retries = 5) {
-        // gemini-3.6-flash 모델명 유지
         const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
         
         for (let attempt = 1; attempt <= retries; attempt++) {
@@ -566,14 +549,12 @@ function closeHistoryModal() {
         return `${y}.${m}.${d} ${h}:${min}:${s}`;
     }
 
-    // 언어, 난이도, 유형별로 기존 히스토리에 출제된 단어를 필터링하여 중복 제외
     function getExcludedWordsFromHistory(lang, difficulty, type) {
         const histories = JSON.parse(localStorage.getItem('quiz_histories') || '[]');
         const excluded = new Set();
 
         histories.forEach(h => {
-            // 언어와 난이도가 일치하는 기록 검사
-            const recordLang = h.lang || '영어'; // 구버전 호환용 기본값
+            const recordLang = h.lang || '영어';
             if (recordLang === lang && h.difficulty === difficulty) {
                 if (type === '🎲 무작위 주제 (랜덤)') {
                     if (h.type === '🎲 무작위 주제 (랜덤)' && h.results) {
@@ -594,7 +575,6 @@ function closeHistoryModal() {
         selectedLang = document.getElementById('target-lang').value;
         selectedDifficulty = document.getElementById('difficulty').value;
         selectedType = document.getElementById('word-type').value;
-        // 동적으로 타이틀 변경
         document.getElementById('main-heading').innerText = `${selectedLang} 단어 퀴즈`;
         document.getElementById('page-title').innerText = `${selectedLang} 단어 퀴즈`;
 
@@ -718,7 +698,6 @@ function closeHistoryModal() {
         document.getElementById('quiz-score').innerText = `점수: ${score}점`;
     }
 
-    // 선택된 언어에 맞는 TTS 로케일 코드 반환
     function getLocaleCode(lang) {
         switch(lang) {
             case '일본어': return 'ja-JP';
