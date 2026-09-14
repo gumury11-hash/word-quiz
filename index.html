@@ -69,73 +69,12 @@
 
         .form-group { margin-bottom: 16px; }
 
-        .label-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
         label {
             font-weight: 600;
             font-size: 17px;
             color: var(--text-color);
-            margin-bottom: 0;
-        }
-
-        .help-icon-btn {
-            background: none;
-            border: none;
-            color: var(--gold-primary);
-            font-size: 17px;
-            cursor: pointer;
-            padding: 0;
-            width: auto;
-            margin-top: 0;
-            box-shadow: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-weight: 600;
-        }
-        .help-icon-btn:hover {
-            color: var(--gold-hover);
-            transform: none;
-            box-shadow: none;
-            background: none;
-        }
-
-        /* 접이식 도움말 박스 스타일 */
-        .help-dropdown {
-            display: none;
-            background: var(--gold-light);
-            border: 1px solid var(--gold-border);
-            border-radius: 10px;
-            padding: 16px;
-            margin-top: 10px;
-            margin-bottom: 16px;
-            box-sizing: border-box;
-        }
-        .help-dropdown.show {
+            margin-bottom: 6px;
             display: block;
-        }
-        .help-dropdown h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--gold-primary);
-            font-size: 18px;
-        }
-        .help-dropdown p, .help-dropdown li {
-            color: var(--text-muted);
-            font-size: 15px;
-            line-height: 1.5;
-        }
-        .help-dropdown ul {
-            padding-left: 20px;
-            margin: 6px 0;
-        }
-        .help-dropdown strong {
-            color: var(--text-color);
         }
 
         input[type="text"], input[type="password"], select {
@@ -210,7 +149,14 @@
         }
         .btn-tts:hover { background: #bae6fd; transform: none; }
 
-        /* 기록 상세 확인 모달 (기록 상세용은 기존 유지) */
+        /* API 키 관리 영역 스타일 (설정 화면 하단) */
+        .api-settings-box {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* 기록 상세 확인 모달 */
         .modal {
             display: none;
             position: fixed;
@@ -361,33 +307,11 @@
 <div class="container">
     <h1 id="main-heading">외국어 단어 퀴즈</h1>
 
-    <!-- 1. API 키 설정 화면 -->
+    <!-- 1. API 키 설정 화면 (키가 없을 때만 진입) -->
     <div id="setup-section" class="section active">
         <div class="form-group">
-            <div class="label-container">
-                <label for="api-key">Gemini API 키 입력</label>
-                <button class="help-icon-btn" onclick="toggleHelpDropdown()" title="API Key 발급 방법">
-                    ❔ 도움말
-                </button>
-            </div>
+            <label for="api-key">Gemini API 키 입력</label>
             <input type="password" id="api-key" placeholder="API 키를 입력하세요">
-            
-            <!-- 접이식 도움말 영역 (API 키 입력창 밑에 배치) -->
-            <div class="help-dropdown" id="help-dropdown">
-                <h4>Gemini API 키 발급 방법</h4>
-                <p style="margin-bottom: 4px;"><strong>1. Google AI Studio 접속</strong></p>
-                <ul>
-                    <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 후 로그인 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 14px;">[바로가기]</a></li>
-                </ul>
-                <p style="margin-bottom: 4px; margin-top: 8px;"><strong>2. API Key 생성</strong></p>
-                <ul>
-                    <li>좌측 메뉴 또는 화면의 <strong>Get API key</strong> 클릭 후 생성 진행</li>
-                </ul>
-                <p style="margin-bottom: 4px; margin-top: 8px;"><strong>3. 키 복사</strong></p>
-                <ul>
-                    <li>발급된 <code>AIza...</code> 키를 복사하여 위 입력란에 붙여넣기</li>
-                </ul>
-            </div>
         </div>
         <button onclick="saveApiKey()">키 저장 및 시작하기</button>
     </div>
@@ -441,6 +365,16 @@
         </div>
         <button onclick="generateQuizQuestions()">퀴즈 문제 생성하기</button>
         <button class="btn-secondary" onclick="showHistorySection()">기록 보기</button>
+
+        <!-- API 키가 없을 때만 화면 하단에 표시되는 API 키 저장 영역 -->
+        <div class="api-settings-box" id="api-settings-box" style="display: none;">
+            <div class="form-group" style="margin-bottom: 8px;">
+                <label for="config-api-key" style="font-size: 15px; color: var(--text-muted);">API 키 변경/등록</label>
+                <input type="password" id="config-api-key" placeholder="새로운 API 키를 입력하세요">
+            </div>
+            <button class="btn-secondary" onclick="updateApiKeyFromConfig()">API 키 저장</button>
+        </div>
+
         <div class="loader" id="loader"></div>
     </div>
 
@@ -500,24 +434,36 @@
     let sessionResults = [];
 
     window.onload = function() {
-        if (apiKey) {
-            document.getElementById('api-key').value = apiKey;
-            switchSection('config-section');
-        }
+        checkApiKeyStatus();
     };
+
+    function checkApiKeyStatus() {
+        const apiSettingsBox = document.getElementById('api-settings-box');
+        if (apiKey) {
+            document.getElementById('config-api-key').value = apiKey;
+            apiSettingsBox.style.display = 'none'; // 키가 있으면 숨김
+            switchSection('config-section');
+        } else {
+            apiSettingsBox.style.display = 'block'; // 키가 없으면 하단에 표시
+            switchSection('setup-section');
+        }
+    }
 
     function saveApiKey() {
         const keyInput = document.getElementById('api-key').value.trim();
         if (!keyInput) { alert('API 키를 입력해주세요.'); return; }
         apiKey = keyInput;
         localStorage.setItem('gemini_api_key', apiKey);
-        switchSection('config-section');
+        checkApiKeyStatus();
     }
 
-    // 접이식 도움말 토글 함수
-    function toggleHelpDropdown() {
-        const dropdown = document.getElementById('help-dropdown');
-        dropdown.classList.toggle('show');
+    function updateApiKeyFromConfig() {
+        const keyInput = document.getElementById('config-api-key').value.trim();
+        if (!keyInput) { alert('API 키를 입력해주세요.'); return; }
+        apiKey = keyInput;
+        localStorage.setItem('gemini_api_key', apiKey);
+        alert('API 키가 저장되었습니다.');
+        checkApiKeyStatus();
     }
 
     function openHistoryModal() { 
@@ -592,6 +538,12 @@
     }
 
     async function generateQuizQuestions() {
+        if (!apiKey) {
+            alert('API 키가 등록되어 있지 않습니다. 화면 하단에서 API 키를 먼저 등록해주세요.');
+            checkApiKeyStatus();
+            return;
+        }
+
         selectedLang = document.getElementById('target-lang').value;
         selectedDifficulty = document.getElementById('difficulty').value;
         selectedType = document.getElementById('word-type').value;
@@ -833,7 +785,7 @@
     }
 
     function resetToConfig() {
-        switchSection('config-section');
+        checkApiKeyStatus();
     }
 </script>
 
