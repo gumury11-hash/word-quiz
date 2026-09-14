@@ -77,6 +77,31 @@
             display: block;
         }
 
+        /* API 키 발급 안내 가이드 박스 스타일 */
+        .api-guide-box {
+            background: var(--gold-light);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 16px;
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .api-guide-box h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: var(--gold-primary);
+            font-size: 16px;
+        }
+        .api-guide-box ul {
+            padding-left: 18px;
+            margin: 4px 0;
+        }
+        .api-guide-box strong {
+            color: var(--text-color);
+        }
+
         input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 12px 14px;
@@ -309,9 +334,19 @@
 
     <!-- 1. API 키 설정 화면 (키가 없을 때만 진입) -->
     <div id="setup-section" class="section active">
+        <!-- API 키 발급 방법 안내 박스 -->
+        <div class="api-guide-box">
+            <h4>💡 Gemini API 키 발급 방법</h4>
+            <ul>
+                <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 및 구글 로그인 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 13px;">[바로가기]</a></li>
+                <li>좌측 메뉴 또는 화면의 <strong>Get API key</strong> 클릭</li>
+                <li><strong>Create API key</strong> 버튼을 눌러 키 생성 후 복사하기</li>
+            </ul>
+        </div>
+
         <div class="form-group">
             <label for="api-key">Gemini API 키 입력</label>
-            <input type="password" id="api-key" placeholder="API 키를 입력하세요">
+            <input type="password" id="api-key" placeholder="API 키를 입력하세요 (AIza...)">
         </div>
         <button onclick="saveApiKey()">키 저장 및 시작하기</button>
     </div>
@@ -368,6 +403,13 @@
 
         <!-- API 키가 없을 때만 화면 하단에 표시되는 API 키 저장 영역 -->
         <div class="api-settings-box" id="api-settings-box" style="display: none;">
+            <!-- 게임 설정 화면 하단에 표시될 때도 가이드 제공 -->
+            <div class="api-guide-box" style="margin-bottom: 12px;">
+                <h4>💡 Gemini API 키 발급 방법</h4>
+                <ul>
+                    <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 후 <strong>Get API key</strong>에서 키 생성 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 13px;">[바로가기]</a></li>
+                </ul>
+            </div>
             <div class="form-group" style="margin-bottom: 8px;">
                 <label for="config-api-key" style="font-size: 15px; color: var(--text-muted);">API 키 변경/등록</label>
                 <input type="password" id="config-api-key" placeholder="새로운 API 키를 입력하세요">
