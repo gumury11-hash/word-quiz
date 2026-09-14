@@ -353,16 +353,16 @@
         <div class="form-group">
             <label for="target-lang">학습 언어 선택</label>
             <select id="target-lang">
-            <option value="en-US|영어|English">영어</option>
-            <option value="ja-JP|일본어|Japanese">일본어</option>
-            <option value="zh-CN|중국어|Chinese">중국어</option>
-            <option value="es-ES|스페인어|Spanish">스페인어</option>
-            <option value="fr-FR|프랑스어|French">프랑스어</option>
-            <option value="de-DE|독일어|German">독일어</option>
-            <option value="vi-VN|베트남어|Vietnamese">베트남어</option>
-            <option value="th-TH|태국어|Thai">태국어</option>
-            <option value="ru-RU|러시아어|Russian">러시아어</option>
-            <option value="it-IT|이탈리아어|Italian">이탈리아어</option>
+            <option value="영어">영어</option>
+            <option value="일본어">일본어</option>
+            <option value="중국어">중국어</option>
+            <option value="스페인어">스페인어</option>
+            <option value="프랑스어">프랑스어</option>
+            <option value="독일어">독일어</option>
+            <option value="베트남어">베트남어</option>
+            <option value="태국어">태국어</option>
+            <option value="러시아어">러시아어</option>
+            <option value="이탈리아어">이탈리아어</option>
             </select>
         </div>
         <div class="form-group">
@@ -569,7 +569,6 @@
         selectedLang = document.getElementById('target-lang').value;
         selectedDifficulty = document.getElementById('difficulty').value;
         selectedType = document.getElementById('word-type').value;
-        
         // 동적으로 타이틀 변경
         document.getElementById('main-heading').innerText = `${selectedLang} 단어 퀴즈`;
         document.getElementById('page-title').innerText = `${selectedLang} 단어 퀴즈`;
@@ -703,6 +702,10 @@
             case '프랑스어': return 'fr-FR';
             case '독일어': return 'de-DE';
             case '영어': default: return 'en-US';
+            case '베트남어': default: return 'vi-VN';
+            case '태국어': default: return 'th-TH';
+            case '러시아어': default: return 'ru-RU';
+            case '이탈리아어': default: return 'it-IT';
         }
     }
 
