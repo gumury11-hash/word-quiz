@@ -353,12 +353,16 @@
         <div class="form-group">
             <label for="target-lang">학습 언어 선택</label>
             <select id="target-lang">
-                <option value="영어" selected>🇬🇧 영어 (English)</option>
-                <option value="일본어">🇯🇵 일본어 (Japanese)</option>
-                <option value="중국어">🇨🇳 중국어 (Chinese)</option>
-                <option value="스페인어">🇪🇸 스페인어 (Spanish)</option>
-                <option value="프랑스어">🇫🇷 프랑스어 (French)</option>
-                <option value="독일어">🇩🇪 독일어 (German)</option>
+            <option value="en-US|영어|English">영어</option>
+            <option value="ja-JP|일본어|Japanese">일본어</option>
+            <option value="zh-CN|중국어|Chinese">중국어</option>
+            <option value="es-ES|스페인어|Spanish">스페인어</option>
+            <option value="fr-FR|프랑스어|French">프랑스어</option>
+            <option value="de-DE|독일어|German">독일어</option>
+            <option value="vi-VN|베트남어|Vietnamese">베트남어</option>
+            <option value="th-TH|태국어|Thai">태국어</option>
+            <option value="ru-RU|러시아어|Russian">러시아어</option>
+            <option value="it-IT|이탈리아어|Italian">이탈리아어</option>
             </select>
         </div>
         <div class="form-group">
@@ -372,14 +376,23 @@
         <div class="form-group">
             <label for="word-type">단어 유형 선택</label>
             <select id="word-type">
-                <option value="🎲 무작위 주제 (랜덤)">🎲 무작위 주제 (랜덤)</option>
-                <option value="✈️ 공항 및 해외 여행">✈️ 공항 및 해외 여행</option>
-                <option value="☕ 식당 주문 및 카페 이용">☕ 식당 주문 및 카페 이용</option>
-                <option value="💼 비즈니스 및 업무 회화">💼 비즈니스 및 업무 회화</option>
-                <option value="🗣️ 일상 대화 및 감정 표현">🗣️ 일상 대화 및 감정 표현</option>
-                <option value="🛍️ 쇼핑 및 환불/교환">🛍️ 쇼핑 및 환불/교환</option>
-                <option value="🏨 호텔 및 숙소 이용">🏨 호텔 및 숙소 이용</option>
-                <option value="🗺️ 길 찾기 및 교통수단">🗺️ 길 찾기 및 교통수단</option>
+             <option value="random">🎲 무작위 주제 (랜덤)</option>
+            <option value="공항 및 해외 여행 상황">✈️ 공항 및 해외 여행</option>
+            <option value="식당 주문 및 카페 이용">☕ 식당 주문 및 카페 이용</option>
+            <option value="비즈니스 미팅 및 이메일 표현">💼 비즈니스 및 업무 회화</option>
+            <option value="친구와의 일상 수다 및 감정 표현">🗣️ 일상 대화 및 감정 표현</option>
+            <option value="쇼핑 및 환불/교환 상황">🛍️ 쇼핑 및 환불/교환</option>
+            <option value="호텔 예약 및 체크인/체크아웃">🏨 호텔 및 숙소 이용</option>
+            <option value="길 찾기 및 교통수단 이용">🗺️ 길 찾기 및 교통수단</option>
+            <option value="학교 수업 및 발표 상황">🎓 학교 수업 및 발표</option>
+            <option value="취업 준비 및 면접 질문">💼 취업 준비 및 면접</option>
+            <option value="가족 행사 및 명절 대화">🏡 가족 행사 및 명절</option>
+            <option value="건강, 운동, 병원 방문">🏥 건강 및 병원</option>
+            <option value="취미 생활 및 여가 활동">🎨 취미와 여가</option>
+            <option value="스마트폰, 앱, 디지털 기기">📱 스마트폰 및 디지털</option>
+            <option value="날씨, 계절, 자연환경">🌤️ 날씨와 자연</option>
+            <option value="뉴스, 사회 이슈, 의견 표현">📰 뉴스 및 사회 이슈</option>
+            <option value="영화, 음악, 예술 감상">🎬 영화와 예술</option>
             </select>
         </div>
         <button onclick="generateQuizQuestions()">퀴즈 문제 생성하기</button>
@@ -799,4 +812,3 @@
 
 </body>
 </html>
-
