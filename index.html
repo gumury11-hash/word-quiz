@@ -105,6 +105,39 @@
             background: none;
         }
 
+        /* 접이식 도움말 박스 스타일 */
+        .help-dropdown {
+            display: none;
+            background: var(--gold-light);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+        .help-dropdown.show {
+            display: block;
+        }
+        .help-dropdown h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--gold-primary);
+            font-size: 18px;
+        }
+        .help-dropdown p, .help-dropdown li {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        .help-dropdown ul {
+            padding-left: 20px;
+            margin: 6px 0;
+        }
+        .help-dropdown strong {
+            color: var(--text-color);
+        }
+
         input[type="text"], input[type="password"], select {
             width: 100%;
             padding: 12px 14px;
@@ -177,7 +210,7 @@
         }
         .btn-tts:hover { background: #bae6fd; transform: none; }
 
-        /* 팝업 모달 */
+        /* 기록 상세 확인 모달 (기록 상세용은 기존 유지) */
         .modal {
             display: none;
             position: fixed;
@@ -188,9 +221,10 @@
             background: rgba(0, 0, 0, 0.5);
             justify-content: center;
             align-items: center;
-            z-index: 99999;
+            z-index: 999999;
             padding: 16px;
             box-sizing: border-box;
+            touch-action: auto;
         }
         .modal.show {
             display: flex !important;
@@ -202,7 +236,7 @@
             border-radius: 16px;
             width: 100%;
             max-width: 480px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             max-height: 85vh;
             overflow-y: auto;
             box-sizing: border-box;
@@ -332,11 +366,28 @@
         <div class="form-group">
             <div class="label-container">
                 <label for="api-key">Gemini API 키 입력</label>
-                <button class="help-icon-btn" onclick="openHelpModal()" title="API Key 발급 방법">
-                    ❔도움말
+                <button class="help-icon-btn" onclick="toggleHelpDropdown()" title="API Key 발급 방법">
+                    ❔ 도움말
                 </button>
             </div>
             <input type="password" id="api-key" placeholder="API 키를 입력하세요">
+            
+            <!-- 접이식 도움말 영역 (API 키 입력창 밑에 배치) -->
+            <div class="help-dropdown" id="help-dropdown">
+                <h4>Gemini API 키 발급 방법</h4>
+                <p style="margin-bottom: 4px;"><strong>1. Google AI Studio 접속</strong></p>
+                <ul>
+                    <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 접속 후 로그인 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 14px;">[바로가기]</a></li>
+                </ul>
+                <p style="margin-bottom: 4px; margin-top: 8px;"><strong>2. API Key 생성</strong></p>
+                <ul>
+                    <li>좌측 메뉴 또는 화면의 <strong>Get API key</strong> 클릭 후 생성 진행</li>
+                </ul>
+                <p style="margin-bottom: 4px; margin-top: 8px;"><strong>3. 키 복사</strong></p>
+                <ul>
+                    <li>발급된 <code>AIza...</code> 키를 복사하여 위 입력란에 붙여넣기</li>
+                </ul>
+            </div>
         </div>
         <button onclick="saveApiKey()">키 저장 및 시작하기</button>
     </div>
@@ -427,33 +478,6 @@
     </div>
 </div>
 
-<!-- API 키 발급 도움말 모달 -->
-<div class="modal" id="help-modal">
-    <div class="modal-content">
-        <h3>Gemini API 키 발급 방법</h3>
-        
-        <p style="margin-bottom: 6px;"><strong>1. Google AI Studio 접속 및 로그인</strong></p>
-        <ul>
-            <li><a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary);">Google AI Studio</a> 웹사이트에 접속합니다. 🔗 <a href="https://aistudio.google.com/" target="_blank" style="color: var(--gold-primary); font-size: 15px;">[바로가기]</a></li>
-            <li>Google 계정으로 로그인합니다.</li>
-        </ul>
-
-        <p style="margin-bottom: 6px; margin-top: 10px;"><strong>2. API Key 생성 페이지 이동</strong></p>
-        <ul>
-            <li>로그인 후 화면 좌측 사이드 메뉴 또는 메인 화면에서 <strong>Get API key</strong> (또는 Create API key) 버튼을 클릭합니다.</li>
-        </ul>
-
-        <p style="margin-bottom: 6px; margin-top: 10px;"><strong>3. API Key 발급</strong></p>
-        <ul>
-            <li><strong>Create API key</strong> 버튼을 누릅니다.</li>
-            <li>연결할 Google Cloud 프로젝트를 선택하거나, 새로운 프로젝트를 생성하여 진행합니다.</li>
-            <li>생성 버튼을 누르면 <code>AIza...</code>로 시작하는 키 문자열이 즉시 발급됩니다.</li>
-        </ul>
-
-        <button class="close-btn" onclick="closeHelpModal()">닫기</button>
-    </div>
-</div>
-
 <!-- 기록 상세 확인 모달 -->
 <div class="modal" id="history-detail-modal">
     <div class="modal-content">
@@ -490,16 +514,12 @@
         switchSection('config-section');
     }
 
-    function openHelpModal() { 
-        const modal = document.getElementById('help-modal');
-        modal.style.display = 'flex';
-        modal.classList.add('show');
+    // 접이식 도움말 토글 함수
+    function toggleHelpDropdown() {
+        const dropdown = document.getElementById('help-dropdown');
+        dropdown.classList.toggle('show');
     }
-    function closeHelpModal() { 
-        const modal = document.getElementById('help-modal');
-        modal.style.display = 'none';
-        modal.classList.remove('show');
-    }
+
     function openHistoryModal() { 
         const modal = document.getElementById('history-detail-modal');
         modal.style.display = 'flex';
