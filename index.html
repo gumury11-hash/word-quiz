@@ -334,7 +334,6 @@
 
     <!-- 1. API 키 설정 화면 (키가 없을 때만 진입) -->
     <div id="setup-section" class="section active">
-        <!-- API 키 발급 방법 안내 박스 -->
         <div class="api-guide-box">
             <h4>💡 Gemini API 키 발급 방법</h4>
             <ul>
@@ -345,8 +344,8 @@
         </div>
 
         <div class="form-group">
-            <label for="api-key">Gemini API 키 입력</label>
-            <input type="password" id="api-key" placeholder="API 키를 입력하세요 (AIza...)">
+            <label for="api-key-input">Gemini API 키 입력</label>
+            <input type="password" id="api-key-input" placeholder="API 키를 입력하세요 (AIza...)">
         </div>
         <button onclick="saveApiKey()">키 저장 및 시작하기</button>
     </div>
@@ -403,7 +402,6 @@
 
         <!-- API 키가 없을 때만 화면 하단에 표시되는 API 키 저장 영역 -->
         <div class="api-settings-box" id="api-settings-box" style="display: none;">
-            <!-- 게임 설정 화면 하단에 표시될 때도 가이드 제공 -->
             <div class="api-guide-box" style="margin-bottom: 12px;">
                 <h4>💡 Gemini API 키 발급 방법</h4>
                 <ul>
@@ -492,7 +490,7 @@
     }
 
     function saveApiKey() {
-        const keyInput = document.getElementById('api-key').value.trim();
+        const keyInput = document.getElementById('api-key-input').value.trim();
         if (!keyInput) { alert('API 키를 입력해주세요.'); return; }
         apiKey = keyInput;
         localStorage.setItem('gemini_api_key', apiKey);
@@ -525,7 +523,7 @@
     }
 
     async function callGeminiAPI(prompt, retries = 5) {
-        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
         
         for (let attempt = 1; attempt <= retries; attempt++) {
             try {
